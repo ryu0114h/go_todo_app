@@ -15,7 +15,7 @@ type AddTask struct {
 	Validator *validator.Validate
 }
 
-func (at *AddTask) ServerHTTP(w http.ResponseWriter, r *http.Request) {
+func (at *AddTask) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	ctx := r.Context()
 	var b struct {
 		Title string `json:"title" validate:"required"`
@@ -31,6 +31,7 @@ func (at *AddTask) ServerHTTP(w http.ResponseWriter, r *http.Request) {
 		RespondJSON(ctx, w, &ErrResponse{
 			Message: err.Error(),
 		}, http.StatusBadRequest)
+		return
 	}
 
 	t := &entity.Task{
@@ -43,11 +44,10 @@ func (at *AddTask) ServerHTTP(w http.ResponseWriter, r *http.Request) {
 		RespondJSON(ctx, w, &ErrResponse{
 			Message: err.Error(),
 		}, http.StatusInternalServerError)
+		return
 	}
 	rsp := struct {
 		ID int `json:"id"`
-	}{
-		ID: int(id),
-	}
+	}{ID: int(id)}
 	RespondJSON(ctx, w, rsp, http.StatusOK)
 }

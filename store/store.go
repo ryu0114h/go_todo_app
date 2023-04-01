@@ -8,24 +8,24 @@ import (
 
 var (
 	Tasks = TaskStore{
-		Tasks: map[entity.TaskId]*entity.Task{},
+		Tasks: map[entity.TaskID]*entity.Task{},
 	}
 	ErrNotFound = errors.New("not found")
 )
 
 type TaskStore struct {
-	LastID entity.TaskId
-	Tasks  map[entity.TaskId]*entity.Task
+	LastID entity.TaskID
+	Tasks  map[entity.TaskID]*entity.Task
 }
 
-func (ts *TaskStore) Add(t *entity.Task) (entity.TaskId, error) {
+func (ts *TaskStore) Add(t *entity.Task) (entity.TaskID, error) {
 	ts.LastID++
 	t.ID = ts.LastID
-	ts.Tasks[ts.LastID] = t
-	return ts.LastID, nil
+	ts.Tasks[t.ID] = t
+	return t.ID, nil
 }
 
-func (ts *TaskStore) Get(id entity.TaskId) (*entity.Task, error) {
+func (ts *TaskStore) Get(id entity.TaskID) (*entity.Task, error) {
 	if t, ok := ts.Tasks[id]; ok {
 		return t, nil
 	}
