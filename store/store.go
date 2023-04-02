@@ -7,7 +7,7 @@ import (
 )
 
 var (
-	Tasks = TaskStore{
+	Tasks = &TaskStore{
 		Tasks: map[entity.TaskID]*entity.Task{},
 	}
 	ErrNotFound = errors.New("not found")
