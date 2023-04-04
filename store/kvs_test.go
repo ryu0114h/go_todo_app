@@ -60,7 +60,6 @@ func TestKVS_Load(t *testing.T) {
 		got, err := sut.Load(ctx, key)
 		if err == nil || !errors.Is(err, ErrNotFound) {
 			t.Errorf("want %v, but got %v(value = %d)", ErrNotFound, err, got)
-
 		}
 	})
 }
