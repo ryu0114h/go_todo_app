@@ -61,7 +61,7 @@ type Preparer interface {
 
 type Execer interface {
 	ExecContext(ctx context.Context, query string, args ...any) (sql.Result, error)
-	NamedExecContext(ctx context.Context, query string, args interface{}) (sql.Result, error)
+	NamedExecContext(ctx context.Context, query string, arg interface{}) (sql.Result, error)
 }
 
 type Queryer interface {
@@ -73,7 +73,7 @@ type Queryer interface {
 }
 
 var (
-	// インターフェイスが期待通りに宣言されているか確認
+	// インターフェースが期待通りに宣言されているか確認
 	_ Beginner = (*sqlx.DB)(nil)
 	_ Preparer = (*sqlx.DB)(nil)
 	_ Queryer  = (*sqlx.DB)(nil)

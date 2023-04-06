@@ -7,8 +7,6 @@ import (
 )
 
 type ListTask struct {
-	// DB   *sqlx.DB
-	// Repo *store.Repository
 	Service ListTasksService
 }
 

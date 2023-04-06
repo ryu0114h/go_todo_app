@@ -14,10 +14,10 @@ func TestNew(t *testing.T) {
 		t.Fatalf("cannot create config: %v", err)
 	}
 	if got.Port != wantPort {
-		t.Errorf("want port %v, but %v", wantPort, got.Port)
+		t.Errorf("want %d, but %d", wantPort, got.Port)
 	}
 	wantEnv := "dev"
 	if got.Env != wantEnv {
-		t.Errorf("want env %v, but %v", wantEnv, got.Env)
+		t.Errorf("want %s, but %s", wantEnv, got.Env)
 	}
 }

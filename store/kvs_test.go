@@ -10,7 +10,7 @@ import (
 	"github.com/ryu0114h/go_todo_app/testutil"
 )
 
-func TestKVS_SAVE(t *testing.T) {
+func TestKVS_Save(t *testing.T) {
 	t.Parallel()
 
 	cli := testutil.OpenRedisForTest(t)

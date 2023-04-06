@@ -21,7 +21,7 @@ func OpenRedisForTest(t *testing.T) *redis.Client {
 	client := redis.NewClient(&redis.Options{
 		Addr:     fmt.Sprintf("%s:%d", host, port),
 		Password: "",
-		DB:       0,
+		DB:       0, // default database number
 	})
 	if err := client.Ping(context.Background()).Err(); err != nil {
 		t.Fatalf("failed to connect redis: %s", err)

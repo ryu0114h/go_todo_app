@@ -9,8 +9,6 @@ import (
 )
 
 type AddTask struct {
-	// DB        *sqlx.DB
-	// Repo      *store.Repository
 	Service   AddTaskService
 	Validator *validator.Validate
 }
@@ -26,17 +24,13 @@ func (at *AddTask) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		}, http.StatusInternalServerError)
 		return
 	}
-	if err := validator.New().Struct(b); err != nil {
+	if err := at.Validator.Struct(b); err != nil {
 		RespondJSON(ctx, w, &ErrResponse{
 			Message: err.Error(),
 		}, http.StatusBadRequest)
 		return
 	}
 
-	t := &entity.Task{
-		Title:  b.Title,
-		Status: entity.TaskStatusTodo,
-	}
 	t, err := at.Service.AddTask(ctx, b.Title)
 	if err != nil {
 		RespondJSON(ctx, w, &ErrResponse{
@@ -45,7 +39,7 @@ func (at *AddTask) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	rsp := struct {
-		ID int `json:"id"`
-	}{ID: int(t.ID)}
+		ID entity.TaskID `json:"id"`
+	}{ID: t.ID}
 	RespondJSON(ctx, w, rsp, http.StatusOK)
 }
