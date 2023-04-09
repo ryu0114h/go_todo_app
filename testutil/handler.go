@@ -24,6 +24,7 @@ func AssertJSON(t *testing.T, want, got []byte) {
 		t.Errorf("got differs: (-got +want)\n%s", diff)
 	}
 }
+
 func AssertResponse(t *testing.T, got *http.Response, status int, body []byte) {
 	t.Helper()
 	t.Cleanup(func() { _ = got.Body.Close() })
