@@ -308,3 +308,75 @@ func (mock *LoginServiceMock) LoginCalls() []struct {
 	mock.lockLogin.RUnlock()
 	return calls
 }
+
+// Ensure, that DeleteTaskServiceMock does implement DeleteTaskService.
+// If this is not the case, regenerate this file with moq.
+var _ DeleteTaskService = &DeleteTaskServiceMock{}
+
+// DeleteTaskServiceMock is a mock implementation of DeleteTaskService.
+//
+//	func TestSomethingThatUsesDeleteTaskService(t *testing.T) {
+//
+//		// make and configure a mocked DeleteTaskService
+//		mockedDeleteTaskService := &DeleteTaskServiceMock{
+//			DeleteTaskFunc: func(ctx context.Context, id entity.TaskID) error {
+//				panic("mock out the DeleteTask method")
+//			},
+//		}
+//
+//		// use mockedDeleteTaskService in code that requires DeleteTaskService
+//		// and then make assertions.
+//
+//	}
+type DeleteTaskServiceMock struct {
+	// DeleteTaskFunc mocks the DeleteTask method.
+	DeleteTaskFunc func(ctx context.Context, id entity.TaskID) error
+
+	// calls tracks calls to the methods.
+	calls struct {
+		// DeleteTask holds details about calls to the DeleteTask method.
+		DeleteTask []struct {
+			// Ctx is the ctx argument value.
+			Ctx context.Context
+			// ID is the id argument value.
+			ID entity.TaskID
+		}
+	}
+	lockDeleteTask sync.RWMutex
+}
+
+// DeleteTask calls DeleteTaskFunc.
+func (mock *DeleteTaskServiceMock) DeleteTask(ctx context.Context, id entity.TaskID) error {
+	if mock.DeleteTaskFunc == nil {
+		panic("DeleteTaskServiceMock.DeleteTaskFunc: method is nil but DeleteTaskService.DeleteTask was just called")
+	}
+	callInfo := struct {
+		Ctx context.Context
+		ID  entity.TaskID
+	}{
+		Ctx: ctx,
+		ID:  id,
+	}
+	mock.lockDeleteTask.Lock()
+	mock.calls.DeleteTask = append(mock.calls.DeleteTask, callInfo)
+	mock.lockDeleteTask.Unlock()
+	return mock.DeleteTaskFunc(ctx, id)
+}
+
+// DeleteTaskCalls gets all the calls that were made to DeleteTask.
+// Check the length with:
+//
+//	len(mockedDeleteTaskService.DeleteTaskCalls())
+func (mock *DeleteTaskServiceMock) DeleteTaskCalls() []struct {
+	Ctx context.Context
+	ID  entity.TaskID
+} {
+	var calls []struct {
+		Ctx context.Context
+		ID  entity.TaskID
+	}
+	mock.lockDeleteTask.RLock()
+	calls = mock.calls.DeleteTask
+	mock.lockDeleteTask.RUnlock()
+	return calls
+}

@@ -2,6 +2,7 @@ package store
 
 import (
 	"context"
+	"fmt"
 
 	"github.com/ryu0114h/go_todo_app/entity"
 )
@@ -42,4 +43,27 @@ func (r *Repository) ListTasks(
 		return nil, err
 	}
 	return tasks, nil
+}
+
+func (r *Repository) DeleteTask(
+	ctx context.Context, db Execer, userID entity.UserID, taskId entity.TaskID,
+) error {
+	sql := `DELETE FROM task
+			WHERE user_id = ?
+				AND id = ?;
+			`
+	result, err := db.ExecContext(
+		ctx, sql, userID, taskId,
+	)
+	if err != nil {
+		return err
+	}
+	n, err := result.RowsAffected()
+	if err != nil {
+		return err
+	}
+	if n == 0 {
+		return fmt.Errorf("no changed")
+	}
+	return nil
 }
