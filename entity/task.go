@@ -21,3 +21,9 @@ type Task struct {
 }
 
 type Tasks []*Task
+
+func ValidStatus(status string) bool {
+	return TaskStatus(status) == TaskStatusTodo ||
+		TaskStatus(status) == TaskStatusDoing ||
+		TaskStatus(status) == TaskStatusDone
+}

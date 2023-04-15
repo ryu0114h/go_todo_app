@@ -15,6 +15,10 @@ type AddTaskService interface {
 	AddTask(ctx context.Context, title string) (*entity.Task, error)
 }
 
+type UpdateTaskService interface {
+	UpdateTask(ctx context.Context, id int64, title, status string) (*entity.Task, error)
+}
+
 type DeleteTaskService interface {
 	DeleteTask(ctx context.Context, id entity.TaskID) error
 }

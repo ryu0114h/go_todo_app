@@ -3,6 +3,7 @@ package store
 import (
 	"context"
 	"fmt"
+	"time"
 
 	"github.com/ryu0114h/go_todo_app/entity"
 )
@@ -27,6 +28,30 @@ func (r *Repository) AddTask(
 		return err
 	}
 	t.ID = entity.TaskID(id)
+	return nil
+}
+
+func (r *Repository) UpdateTask(
+	ctx context.Context, db Execer, t *entity.Task,
+) error {
+	t.Modified = time.Now()
+	sql := `UPDATE task 
+			SET title = ?,
+				status = ?,
+				modified = ?
+			WHERE user_id = ?
+				AND id = ?`
+	result, err := db.ExecContext(ctx, sql, t.Title, t.Status, t.Modified, t.UserID, t.ID)
+	if err != nil {
+		return err
+	}
+	id, err := result.RowsAffected()
+	if err != nil {
+		return err
+	}
+	if id == 0 {
+		return fmt.Errorf("no changed")
+	}
 	return nil
 }
 

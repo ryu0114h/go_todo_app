@@ -11,6 +11,9 @@ import (
 type TaskAdder interface {
 	AddTask(ctx context.Context, db store.Execer, t *entity.Task) error
 }
+type TaskUpdater interface {
+	UpdateTask(ctx context.Context, db store.Execer, t *entity.Task) error
+}
 type TaskLister interface {
 	ListTasks(ctx context.Context, db store.Queryer, id entity.UserID) (entity.Tasks, error)
 }
